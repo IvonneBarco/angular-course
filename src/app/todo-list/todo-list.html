@@ -47,7 +47,7 @@
         Por ahora este formulario es estático.
         Más adelante Angular / React controlarán sus valores y eventos.
       -->
-    <form class="task-form">
+    <form class="task-form" [formGroup]="myForm">
       <div class="form-group form-group-main">
         <label for="taskTitle">Título</label>
         <input
@@ -55,19 +55,26 @@
         name="taskTitle"
         type="text"
         placeholder="Ej. Preparar presentación"
-        (change)="onChangeTodo($event)">
+        /* (change)="onChangeTodo($event)" */
+        formControlName="todoTitle"
+        (keydown.enter)="addTodo()"
+        >
       </div>
 
       <div class="form-group">
         <label for="priority">Prioridad</label>
-        <select id="priority" name="priority" (change)="onChangePriority($event)">
+        <select id="priority" name="priority"
+        /* (change)="onChangePriority($event)"  */
+        formControlName="priority">
           <option value="low">Baja</option>
           <option value="medium" selected>Media</option>
           <option value="high">Alta</option>
         </select>
       </div>
 
-      <button class="btn btn-primary" type="button" (click)="addTodo()">
+      <button class="btn btn-primary" type="button" (click)="todoDataComplete()"
+      /* (click)="addTodo()" */
+      >
         + Agregar tarea
       </button>
     </form>
@@ -100,7 +107,8 @@
       <article
         class="task-card"
         *ngFor="let todo of todos(); index as i"
-        [ngClass]="todo.isCompleted ? 'completed' : ''"
+        /* [ngClass]="todo.isCompleted ? 'completed' : ''" */
+        [class.completed]="todo.isCompleted"
       >
         <div class="task-check">
           <input
@@ -192,33 +200,6 @@
           <button class="icon-btn danger" type="button">Eliminar</button>
         </div>
       </article>-->
-
-      <article class="task-card completed">
-        <div class="task-check">
-          <input type="checkbox" id="task-4" checked>
-        </div>
-
-        <div class="task-content">
-          <div class="task-top">
-            <label for="task-4" class="task-title">
-              Crear repositorio de TodoTask
-            </label>
-            <span class="priority priority-medium">Media</span>
-          </div>
-
-          <p class="task-description">
-            Crear la estructura inicial del proyecto.
-          </p>
-
-          <span class="task-date">Completada</span>
-        </div>
-
-        <div class="task-actions">
-          <button class="icon-btn" type="button">Editar</button>
-          <button class="icon-btn danger" type="button">Eliminar</button>
-        </div>
-      </article>
-
     </div>
   </section>
 

@@ -1,9 +1,10 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Todo } from '../models/todo.model';
 import { CommonModule } from '@angular/common';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule],
   selector: 'app-todo-list',
   styleUrl: './todo-list.scss',
   templateUrl: './todo-list.html',
@@ -107,6 +108,16 @@ export class TodoList {
     priority: '',
   };
 
+  //Formulario
+  private fb = inject(FormBuilder);
+
+  myForm = this.fb.group({
+  todoTitle: ['', [Validators.minLength(3)]], // Valor por defecto - No puede ser nulo - Validacion de formulario
+  priority: ['', Validators.required], // Valor por defecto - No puede ser nulo - Validacion de formulario
+});
+
+
+
   constructor() {
     // Al cargar guardamos la lista de tareas en el localStorage
     localStorage.setItem('todos', JSON.stringify(this.todos()));
@@ -156,11 +167,29 @@ export class TodoList {
     }
   }
 
-  onChangeCompleted(event:Event, todo: Todo) {
+  onChangeCompleted(event: Event, todo: Todo) {
     const checkbox = event.target as HTMLInputElement;
     const isChecked = checkbox.checked;
     todo.isCompleted = isChecked;
     console.log(`Tarea "${todo.title}" completada: ${isChecked}`);
     localStorage.setItem('todos', JSON.stringify(this.todos()));
+  }
+
+  // addTodoWithFormControl() {
+  //   if (this.newTodoCtrl.valid) {
+  //     const newTodo: Todo = {
+  //       id: this.todos().length + 1,
+  //       title: this.newTodoCtrl.value,
+  //     };
+  //     this.todos.update((todos) => [...todos, newTodo]);
+  //     localStorage.setItem('todos', JSON.stringify(this.todos()));
+  //     this.newTodoCtrl.reset();
+  //   }
+  // }
+
+  todoDataComplete() {
+    console.log('Datos del formulario:', this.myForm.value);
+    console.log('formulario valido: ', this.myForm.valid);
+    console.log('formulario: ', this.myForm);
   }
 }
