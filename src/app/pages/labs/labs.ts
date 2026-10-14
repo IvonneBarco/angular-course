@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, signal } from '@angular/core';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule],
   selector: 'app-labs',
   styleUrl: './labs.scss',
   templateUrl: './labs.html',
@@ -118,6 +119,25 @@ export class Labs {
       image: 'https://placehold.co/100x100',
     },
   ];
+
+  colorCtrl = new FormControl();
+
+  widthCtrl = new FormControl(50, {
+    nonNullable: true,
+  });
+
+  nameCtrl = new FormControl('',{
+    nonNullable: true,
+    validators: [
+      Validators.minLength(3),
+    ]
+  });
+
+  constructor() {
+    this.colorCtrl.valueChanges.subscribe((value) => {
+      console.log('Color seleccionado:', value);
+    });
+  }
 
   saludo() {
     alert('Buenas tardes 6A');
