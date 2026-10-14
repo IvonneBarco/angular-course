@@ -3,6 +3,7 @@ import { Home } from './pages/home/home';
 
 import { Labs } from './pages/labs/labs'
 import { TodoList } from './todo-list/todo-list';
+import { Todo } from './pages/todo/todo';
 export const routes: Routes = [
   {
     path: '',
@@ -18,7 +19,7 @@ export const routes: Routes = [
   },
   {
     path: 'todo',
-    component: TodoList
+    component: Todo
   }
 ];
 
